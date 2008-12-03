@@ -2,3 +2,5 @@ TODO
 ====
 
 * style the pagination controls
+* owner's tweets should show up on list
+* create "whitelist" of users to bypass the hashtag filter and display all tweets
