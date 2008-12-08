@@ -5,3 +5,4 @@ TODO
 * owner's tweets should show up on list
 * create "whitelist" of users to bypass the hashtag filter and display all tweets
 * (?) consider the option of using a filesystem based cache for those just starting up
+* (?) deleted tweets should be removed from the db
