@@ -28,50 +28,46 @@ ob_start(); // Start the output buffer for the cache
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
    	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-   	<title><?php echo HASHTAG ?>: The Pulse of the Movable Type Community</title>
-	<script src="http://plasticmind.com/mint/?js" type="text/javascript"></script>
+   	<title><?php echo SITE_NAME ?>: <?php echo SITE_DESCRIPTION ?></title>
+   	<meta name="description" content="<?php echo SITE_DESCRIPTION ?>" />
 
-   	<link rel="stylesheet" href="styles.css" type="text/css" media="screen, projection" />
-   	<link rel="stylesheet" href="paginator.css" type="text/css" media="screen, projection" />
-
-   	<link rel="icon" href="http://plasticmind.com/favicon.ico" type="image/x-icon" />
-   	<link rel="shortcut icon" href="http://plasticmind.com/favicon.ico" type="image/x-icon" />
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/hashmt/" />
-	
-   	<meta name="description" content="Real-time updates of the Movable Type community, powered by Twitter." />
+   	<link rel="stylesheet" href="css/twitster-mellow.css" type="text/css" media="screen, projection" />
+   	<link rel="icon" href="i/favicon.ico" type="image/x-icon" />
+   	<link rel="shortcut icon" href="i/favicon.ico" type="image/x-icon" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
 </head>
 <body>
-	<div id="container">
+	<div id="container"><div id="container-in">
 		<div id="banner">
-			<h1><a href="http://plasticmind.com/hashmt/">#mt</a></h1>
-			<p><a href="http://twitter.com/hashmt/">Feel like you should be on this list?  Follow @hashmt on Twitter, and if you've got something beneficial to say about Movable Type, we'll follow you.  Then you can post a tweet here by ending it with #mt.</a></p>
+			<h1><?php echo SITE_NAME ?></h1>
+			<h2><?php echo SITE_DESCRIPTION ?></h2>
 		</div>
 		<div id="content">
-			<div class="feedicon"><a href="http://feeds.feedburner.com/hashmt" title="Subscribe to #mt via RSS"><img src="i/rss.png" alt="Feed Icon"></a></div>
-			<h2>Right now in the Movable Type community:</h2>
+			<div class="feedicon"><a href="rss.php" title="Subscribe to <?php echo SITE_NAME ?> via RSS"><img src="i/rss.png" alt="Feed Icon"></a></div>
+
 			<ul id="updatelist">
 				<?php
 				$i=0;
 
 				foreach ($tweets as $tweet) {
 				  $cleantext = $tweet->clean();
-				  echo "<li id=\"tweet-".$tweet->id."\" " . (($i % 2 == 0) ? " class='altrow'" : "") . ">\n";
+				  echo "<li id=\"tweet-".$tweet->id."\" class='tweet" . (($i % 2 == 0) ? " altrow" : "") . "'>\n";
 				  echo "<div class=\"userpic\"><a href=\"http://twitter.com/". $tweet->screen_name ."\"><img src=\"" . $tweet->userpic . "\" alt=\"\" /></a></div>\n";
-				  echo "<div class=\"meta\"><a href=\"http://twitter.com/". $tweet->screen_name ."\">" . $tweet->name . "</a> ". relativeTime(strtotime($tweet->published)) ."</div>";
-				  echo "<div class=\"tweet\">" . linkify($cleantext) . ' <a href="' . $tweet->permalink() . '" class="permalink">#</a></div>';
+				  echo "<div class=\"tweet-meta\"><a href=\"http://twitter.com/". $tweet->screen_name ."\">" . $tweet->name . "</a> ". relativeTime(strtotime($tweet->published)) ."</div>";
+				  echo "<div class=\"tweet-body\">" . linkify($cleantext) . ' <a href="' . $tweet->permalink() . '" class="permalink">#</a></div>';
 				  echo "</li>\n";
 				  $i++;
 				}
 				?>
 			</ul>
-                        <?php 
-			echo Paginator::paginate($offset,Tweet::count(),PAGE_LIMIT,"index.php?offset="); 
-			?>
+                <?php 
+					echo Paginator::paginate($offset,Tweet::count(),PAGE_LIMIT,"index.php?offset="); 
+				?>
 		</div>
 		<div id="footer">
-			<p>Copyright &copy; 2008 &bull; #mt is hand-coded and designed by <a href="http://plasticmind.com/">Plasticmind</a> &bull; #mt is not affiliated with <a href="http://twitter.com/">Twitter</a></p>
+			<p>Powered by <a href="http://plasticmind.com/twitster/">twitster</a></p>
 		</div>
-	</div>
+	</div></div>
 </body>
 </html>
 
