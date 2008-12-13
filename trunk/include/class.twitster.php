@@ -7,7 +7,7 @@
  * @subpackage classes
  */
 
-require_once("../config.php");
+require_once("config.php");
 require_once("util.php");
 require_once("class.twitter.php"); // this will include a.php
 
