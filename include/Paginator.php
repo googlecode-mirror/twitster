@@ -19,8 +19,8 @@ class Paginator {
     $lastp = ceil($total / $limit);
     $thisp = ceil(($offset == 0 ? 1 : ($lastp / ($total / $offset))));
     print "    <div class=\"paginator\">\n";
-    if ($thisp==1) { print "      <SPAN CLASS=\"atstart\">&lt Prev</SPAN>\n"; }
-    else { print "      <a href=\"".$base.((($thisp - 2) * $limit) + 0)."\" class=\"prev\">&lt; Prev</a> \n"; }
+    if ($thisp==1) { print "      <span class=\"atstart\">&laquo; Prev</span>\n"; }
+    else { print "      <a href=\"".$base.((($thisp - 2) * $limit) + 0)."\" class=\"prev\">&laquo; Prev</a> \n"; }
     $page1 = $base . "0";
     $page2 = $base . ($limit + 0);
     if ($thisp <= 5) {
@@ -55,8 +55,8 @@ class Paginator {
 	print "      <a href=\"".$base.(($lastp*$limit) + 0)."\">".$lastp."</a>\n";
       }
     }
-    if ($thisp == $lastp) { print "      <SPAN CLASS=\"atend\"> Next &gt</SPAN>\n"; }
-    else { print "      <a href=\"".$base.((($thisp + 0) * $limit) + 0)."\" class=\"next\">Next &gt;</a>\n"; }
+    if ($thisp == $lastp) { print "      <span class=\"atend\"> Next &gt</span>\n"; }
+    else { print "      <a href=\"".$base.((($thisp + 0) * $limit) + 0)."\" class=\"next\">Next &raquo;</a>\n"; }
     print "    </div>\n";
   }
 }
