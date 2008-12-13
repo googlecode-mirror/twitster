@@ -1,0 +1,194 @@
+/*
+	Twitster - Mellow
+	=================
+	by Jesse Gardner, Plasticmind Design (http://plasticmind.com)
+*/
+
+/* ----------------------------------------------------------------------------------- RESET */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0;
+	padding:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img { 
+	border:0;
+}
+address,caption,cite,code,dfn,th,var {
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym { 
+ border:0;
+}
+
+/* ----------------------------------------------------------------------------------- COMMON/LAYOUT */
+
+body {
+background: #ecedde url(../i/body.png) top center repeat-y;
+border-top: solid 4px #537880;
+font: 13px/1.3 Helvetica, Arial, sans-serif;
+color: #403033;
+}
+#container {
+width: 720px;
+margin: 0 auto;
+}
+#wizard #container-in {
+padding: 30px 110px 15px;
+}
+#container-in {
+padding: 15px 70px;
+}
+a {
+color: #5b8498;
+font-weight: bold;
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------------------------- HEADER */
+
+#banner {
+text-align: center;
+font-family: Georgia, "Times New Roman", serif;
+font-weight: normal;
+}
+#banner h1 {
+font-size: 48px;
+}
+#banner h1 a {
+font-weight: normal;
+color: #403033;
+}
+#banner h2 {
+color: #5b8498;
+font-size: 15px;
+margin-bottom: 20px;
+}
+.feedicon {
+float: right;
+margin-bottom: 6px;
+font-size: 11px;
+}
+.feedicon a {
+font-weight: normal;
+}
+
+
+/* ----------------------------------------------------------------------------------- TWEETS */
+
+#updatelist {
+clear: both;
+}
+#updatelist li {
+border: solid 1px #dcdcca;
+margin-bottom: 18px;
+background: #eeefe1;
+padding: 12px;
+}
+.userpic {
+float: left;
+}
+.userpic img {
+border: solid 1px #dfdfca;
+padding: 5px;
+background: #fff;
+}
+.tweet {
+overflow: hidden;
+}
+.tweet-meta {
+font: 12px/1 Georgia, "Times New Roman", serif;
+color: #aeae9c;
+margin: 4px 0 4px 70px;
+font-style: italic;
+}
+.tweet-meta a {
+font-size: 15px;
+font-family: Helvetica, Arial, sans-serif;
+font-weight: bold;
+font-style: normal;
+}
+a.permalink {
+font-size: 12px;
+}
+.tweet-body {
+margin-left: 70px;
+}
+
+/* ----------------------------------------------------------------------------------- PAGINATION */
+
+.paginator { margin: 35px auto; text-align: center; font-size: 13px; }
+.paginator a, .paginator span { border: solid 1px #8bb4c8; background: #fff; padding: 3px 5px; }
+.paginator .this-page, .paginator .atstart, .paginator .atend { color: #aaa; border-color: #ddd;}
+.paginator a:hover, .paginator .this-page { color: #fff; background: #5b8498; border: solid 1px #5b8498; text-decoration: none; font-weight: bold; }
+
+/* ----------------------------------------------------------------------------------- FOOTER */
+
+#footer {
+clear: both;
+text-align: center;
+font-size: 11px;
+}
+#footer a {
+background: transparent url(../i/icon-twitster.gif) right no-repeat;
+padding: 3px 18px 2px 0;
+color: #403033;
+}
+
+/* ----------------------------------------------------------------------------------- WIZARD */
+
+#wizard h2 {
+font-size: 24px;
+margin: 40px 0 0 0;
+}
+#wizard legend {
+color: #424242;
+font-weight: bold;
+text-transform: uppercase;
+font-size: 14px;
+}
+#wizard legend {
+padding: 25px 0 12px 150px;
+}
+#wizard input {
+margin-bottom: 12px;
+}
+#wizard fieldset input {
+border: solid 1px #bdbcbd;
+background: #ececdd;
+width: 225px;
+float: left;
+color: #000;
+font: 22px Helvetica, Arial, sans-serif;
+padding: 10px 8px 8px 8px;
+}
+#wizard label {
+float: left;
+width: 130px;
+clear: left;
+text-align: right;
+padding: 12px 20px 0 0;
+}
+#wizard .form-button {
+margin: 12px 0 40px 148px;
+}
