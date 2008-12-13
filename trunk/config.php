@@ -1,6 +1,8 @@
 <?php
-// The hashtag to filter by:
-define('HASHTAG', '#mt');
+
+define('HASHTAG', '#foo'); // The hashtag to filter by:
+define('SITE_NAME', 'The Foo Community'); // The site title
+define('SITE_DESCRIPTION', 'A Twitter-powered community about Foo'); // The site tagline/description
 
 // Turn on/off caching of the first page.
 define("CACHE_ENABLED", 1);
