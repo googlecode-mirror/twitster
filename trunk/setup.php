@@ -47,6 +47,7 @@ if ($_REQUEST['submit']) {
     fwrite($conf,"define('PAGE_LIMIT',20);\n");
     fwrite($conf,"define('DEBUG',0);\n");
     fwrite($conf,"define('QUERY_LIMIT',139);\n");
+    fwrite($conf,"define('LOG_FILE','twitster.log');\n");
     fwrite($conf,"?>\n");
     fclose($conf);
     header("Location: index.php");

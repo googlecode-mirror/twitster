@@ -122,6 +122,7 @@ class twitster {
     $this->twitter->type = 'atom';
     $tweets = array();
     foreach ($queries as $q) {
+      error_log("Sending query $q\n",3,LOG_FILE);
       $tmp = $this->twitter->search($q);
       debug("query (".strlen($q)."): $q");
       foreach ($tmp as $t) { 
