@@ -1,14 +1,40 @@
 <?php
 
-function is_cache_stale( $file ) {
-  if (!file_exists($file)) { return 1; }
-  return (time() - CACHE_TIME < filemtime($file));
+function time_for_refresh() {
+  if (!file_exists(LAST_UPDATE_FILE)) { return 1; }
+  $now = time();
+  $since = filemtime(LAST_UPDATE_FILE);
+  if ($now - $since > CACHE_TIME) {
+    debug("It is time for a refresh."); 
+     return 1;
+  }
+  debug("It is NOT time for a refresh."); 
+  return 0;
 }
+
+function do_update_if_needed($twitster) {
+  if (time_for_refresh()) {
+    if (file_exists(UPDATE_PID_FILE)) {
+      twitlog("Time for an update, but one is already in progress. Skipping.");
+    } else {
+      twitlog("It is time to refresh the cache, beginning now.");
+      $tweets = Tweet::find();
+      $since = $tweets[0]->id;
+      $twitster->refresh($since);
+    }
+  }
+}
+
 
 function debug($str) {
   if (DEBUG) {
-    echo '<p style="font-family: monospace;">'.$str.'</p>';
+    //echo '<p style="font-family: monospace;">'.$str.'</p>';
+    twitlog("DEBUG: $str");
   }
+}
+
+function twitlog($str) {
+    error_log("$str\n",3,LOG_FILE);
 }
 
 // $time should be a Unix timestamp - get it with strtotime()

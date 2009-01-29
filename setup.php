@@ -41,8 +41,6 @@ if ($_REQUEST['submit']) {
     fwrite($conf,"define('TWITTER_USER','".$_REQUEST['twuser']."');\n");
     fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n");
     fwrite($conf,"define('CACHE_ENABLED', 1);\n");
-    fwrite($conf,"define('CACHE_INDEX','cache/cached_page.html');\n");
-    fwrite($conf,"define('CACHE_FEED','cache/cached_feed.rss');\n");
     fwrite($conf,"define('CACHE_TIME',60 * 5);\n");
     fwrite($conf,"define('PAGE_LIMIT',20);\n");
     fwrite($conf,"define('DEBUG',0);\n");
@@ -54,13 +52,14 @@ if ($_REQUEST['submit']) {
     exit;
   }
 }
-if (!is_writable("./")) {
+if (!is_writable("./") || !is_writable("./cache")) {
   include("header.php");
 ?>
     <h2>I sense a disturbance in the Force.</h2>
     <p>It appears that your current directory is not writable. To run the twitster wizard please do one of the following:</p>
     <ul>
-      <li>Run the command <code>chmod g+w <?php echo dirname(__FILE__);?></code></li>
+<?php if (!is_writable("./")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__);."</code></li>\n"; ?>
+<?php if (!is_writable("./cache")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__);."/cache</code></li>\n"; ?>
     </ul>
 <?php
   include("footer.php");

@@ -14,15 +14,7 @@ $options = array();
 $options['offset'] = $offset;
 $options['limit'] = PAGE_LIMIT;
 
-if (CACHE_ENABLED && $offset == 0 && !is_cache_stale(CACHE_INDEX)) {
-    // Serve from the cache if it is younger than $cachetime
-    readfile(CACHE_INDEX);
-    exit; // Quit and don't poll Twitter
-} else {
-    $tweets = Tweet::find();
-    $since = $tweets[0]->id;
-    $twitster->refresh($since);
-}
+if ($offset == 0) { do_update_if_needed($twitster); }
 
 $tweets = Tweet::find($options);
 
