@@ -3,6 +3,9 @@ require_once("config.php");
 require_once("util.php");
 require_once("class.twitter.php"); // this will include a.php
 
+define("UPDATE_PID_FILE","cache/update.pid");
+define("LAST_UPDATE_FILE","cache/last_update");
+
 class Tweet {
   function __construct() {
   }
@@ -93,6 +96,9 @@ class twitster {
   }
 
   function refresh( $since = NULL ) {
+    $pid = fopen(UPDATE_PID_FILE,'w');
+    fwrite($pid,getmypid());
+    fclose($pid);
     $this->twitter->type = 'xml';
     $friends = $this->twitter->friends();
     $base_qs = "rpp=100&";
@@ -122,7 +128,7 @@ class twitster {
     $this->twitter->type = 'atom';
     $tweets = array();
     foreach ($queries as $q) {
-      error_log("Sending query $q\n",3,LOG_FILE);
+      twitlog("Sending query $q\n",3,LOG_FILE);
       $tmp = $this->twitter->search($q);
       debug("query (".strlen($q)."): $q");
       foreach ($tmp as $t) { 
@@ -132,6 +138,8 @@ class twitster {
       }
     }
     debug("# of tweets: " . count($tweets));
+    touch(LAST_UPDATE_FILE);
+    unlink(UPDATE_PID_FILE);
     return $tweets;
   }
 

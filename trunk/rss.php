@@ -1,34 +1,31 @@
 <?php
+require_once("class.twitster.php");
 
-require_once("include/class.twitster.php");
-require_once("include/Paginator.php");
-$hashmt = new hashmt();
-$hashmt->init();
+$twitster = new twitster();
+$twitster->init();
 
 $offset = 0;
 $options = array();
 $options['offset'] = $offset;
 $options['limit'] = PAGE_LIMIT;
 
-if (CACHE_ENABLED && $offset == 0 && !is_cache_stale(CACHE_FEED)) {
-    // Serve from the cache if it is younger than $cachetime
-    readfile(CACHE_FEED);
-    exit; // Quit and don't poll Twitter
-} else {
-    $tweets = Tweet::find();
-    $since = $tweets[0]->id;
-    $hashmt->refresh($since);
+function this_url() {
+  $domain = $_SERVER['HTTP_HOST'];
+  $path = $_SERVER['SCRIPT_NAME'];
+  $url = 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://' . $domain . $path;
+  return ereg_replace('rss.php','',$url);
 }
 
+if ($offset == 0) { do_update_if_needed($twitster); }
+
 $tweets = Tweet::find($options);
-ob_start(); // Start the output buffer for the cache
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <rss version="2.0">
   <channel>
-    <title>#mt: The Pulse of the Movable Type Community</title>
-    <link>http://plasticmind.com/hashmt</link>
-    <description>A real-time journal for the Movable Type community.</description>
+    <title><?php echo SITE_TITLE; ?></title>
+    <link><?php echo this_url(); ?></link>
+    <description><?php echo SITE_SUBTITLE; ?></description>
     <language>en-us</language>
     <ttl>40</ttl>
 		<?php
@@ -47,12 +44,3 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		?>
   </channel>
 </rss>
-
-
-<?
-// Cache the output to a file
-$fp = fopen(CACHE_FEED, 'w');
-fwrite($fp, ob_get_contents());
-fclose($fp);
-ob_end_flush(); // Send the output to the browser
-?>
