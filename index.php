@@ -33,8 +33,8 @@ ob_start(); // Start the output buffer for the cache
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
    	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-   	<title><?php echo SITE_NAME ?>: <?php echo SITE_DESCRIPTION ?></title>
-   	<meta name="description" content="<?php echo SITE_DESCRIPTION ?>" />
+   	<title><?php echo SITE_TITLE ?>: <?php echo SITE_SUBTITLE ?></title>
+   	<meta name="description" content="<?php echo SITE_SUBTITLE ?>" />
    	<link rel="stylesheet" href="css/twitster-mellow.css" type="text/css" media="screen, projection" />
    	<link rel="icon" href="i/favicon.ico" type="image/x-icon" />
    	<link rel="shortcut icon" href="i/favicon.ico" type="image/x-icon" />
@@ -44,8 +44,8 @@ ob_start(); // Start the output buffer for the cache
 <body>
 	<div id="container"><div id="container-in">
 		<div id="banner">
-			<h1><?php echo SITE_NAME ?></h1>
-			<h2><?php echo SITE_DESCRIPTION ?></h2>
+			<h1><?php echo SITE_TITLE ?></h1>
+			<h2><?php echo SITE_SUBTITLE ?></h2>
 		</div>
 
 		<div id="content">
