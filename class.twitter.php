@@ -16,19 +16,19 @@ class twitter{
 	 * Authenticating Twitter user
 	 * @var string
 	 */
-	var $username='hashmt';
+	var $username='';
 	
 	/**
 	 * Autenticating Twitter user password
 	 * @var string
 	 */
-	var $password='h4km9dwkt';
+	var $password='';
 
 	/**
 	 * Recommend setting a user-agent so Twitter knows how to contact you inc case of abuse. Include your email
 	 * @var string
 	 */
-	var $user_agent='pastor@plasticmind.com';
+	var $user_agent='';
 
 	/**
 	 * Can be set to JSON (requires PHP 5.2 or the json pecl module) or XML - json|xml
