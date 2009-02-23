@@ -1,0 +1,26 @@
+<?php
+
+// Site information
+define('HASHTAG', '#foo'); // The hashtag to filter by:
+define('SITE_TITLE', 'Sample Twister Page Title'); // The site title
+define('SITE_SUBTITLE', 'The sample tagline for the Twitster page.'); // The site tagline/description
+
+// Database connection information
+define("DBHOST","localhost");
+define("DBNAME","dbname");
+define("DBUSER","dbusername");
+define("DBPASS","dbpassword");
+
+// Twitter information
+define('TWITTER_USER','sampletwitteruser');
+define('TWITTER_PASS','sampletwitterpass');
+
+// General Twister config
+define('CACHE_ENABLED', 1);
+define('CACHE_TIME',60 * 5);
+define('PAGE_LIMIT',20);
+define('DEBUG',0);
+define('QUERY_LIMIT',139);
+define('LOG_FILE','twitster.log');
+
+?>
