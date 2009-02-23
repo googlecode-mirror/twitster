@@ -38,7 +38,7 @@ abbr,acronym {
  border:0;
 }
 
-/* ----------------------------------------------------------------------------------- COMMON/LAYOUT */
+/* -------------------------------------------------------- COMMON/LAYOUT */
 
 body {
 background: #ecedde url(../i/body.png) top center repeat-y;
@@ -65,7 +65,7 @@ a:hover {
 text-decoration: underline;
 }
 
-/* ----------------------------------------------------------------------------------- HEADER */
+/* --------------------------------------------------------------- HEADER */
 
 #banner {
 text-align: center;
@@ -94,7 +94,7 @@ font-weight: normal;
 }
 
 
-/* ----------------------------------------------------------------------------------- TWEETS */
+/* --------------------------------------------------------------- TWEETS */
 
 #updatelist {
 clear: both;
@@ -135,19 +135,20 @@ font-size: 12px;
 margin-left: 70px;
 }
 
-/* ----------------------------------------------------------------------------------- PAGINATION */
+/* ----------------------------------------------------------- PAGINATION */
 
 .paginator { margin: 35px auto; text-align: center; font-size: 13px; }
 .paginator a, .paginator span { border: solid 1px #8bb4c8; background: #fff; padding: 3px 5px; }
 .paginator .this-page, .paginator .atstart, .paginator .atend { color: #aaa; border-color: #ddd;}
 .paginator a:hover, .paginator .this-page { color: #fff; background: #5b8498; border: solid 1px #5b8498; text-decoration: none; font-weight: bold; }
 
-/* ----------------------------------------------------------------------------------- FOOTER */
+/* --------------------------------------------------------------- FOOTER */
 
 #footer {
 clear: both;
 text-align: center;
 font-size: 11px;
+padding-top: 25px;
 }
 #footer a {
 background: transparent url(../i/icon-twitster.gif) right no-repeat;
@@ -155,11 +156,20 @@ padding: 3px 18px 2px 0;
 color: #403033;
 }
 
-/* ----------------------------------------------------------------------------------- WIZARD */
+/* --------------------------------------------------------------- WIZARD */
 
 #wizard h2 {
 font-size: 24px;
 margin: 40px 0 0 0;
+}
+#wizard p {
+margin: 12px 0;
+}
+#wizard ul {
+background: #ecedde;
+margin: 12px 0;
+padding: 10px 12px;
+font-size: 11px;
 }
 #wizard legend {
 color: #424242;
@@ -191,4 +201,25 @@ padding: 12px 20px 0 0;
 }
 #wizard .form-button {
 margin: 12px 0 40px 148px;
+}
+#wizard input.error {
+border: dashed 1px #a00;
+background: #ecdddd;
+}
+#wizard label.error {
+color: #a00;
+font-weight: bold;
+float: none;
+margin-left: 200px;
+position: relative;
+top: -8px;
+left: -50px;
+}
+#wizard .hint {
+color: #aa9;
+float: none;
+margin-left: 200px;
+position: relative;
+top: -8px;
+left: -50px;
 }
