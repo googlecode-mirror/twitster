@@ -26,7 +26,7 @@ function validate_request() {
   return $errors;
 }
 
-if ($_REQUEST['submit']) {
+if (isset($_REQUEST['submit'])) {
   $conf = fopen("config.php",'w');
   $errors = validate_request();
   if ($errors) {
@@ -56,11 +56,12 @@ if (!is_writable("./") || !is_writable("./cache")) {
   include("header.php");
 ?>
     <h2>I sense a disturbance in the Force.</h2>
-    <p>It appears that your current directory is not writable. To run the twitster wizard please do one of the following:</p>
+    <p>It appears that your current directory is not writable. To run the twitster wizard please do the following:</p>
     <ul>
-<?php if (!is_writable("./")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__);."</code></li>\n"; ?>
-<?php if (!is_writable("./cache")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__);."/cache</code></li>\n"; ?>
+<?php if (!is_writable("./")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__)."</code></li>\n"; } ?>
+<?php if (!is_writable("./cache")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__)."/cache</code></li>\n"; } ?>
     </ul>
+    <p>Then reload the page.</p>
 <?php
   include("footer.php");
   exit;
@@ -84,10 +85,13 @@ if (isset($errors)) {
 					<legend>Site Preferences</legend>
 					<label for="tag">Tag To Follow:</label>
 					<input type="text" name="tag" value="" id="tag"/>
+					<span class="hint">e.g. #magicalplace</span>
 					<label for="site">Site Name:</label>
 					<input type="text" name="site" value="" id="site"/>
+					<span class="hint">e.g. Unicorns and Rainbows</span>
 					<label for="tagline">Tagline:</label>
 					<input type="text" name="tagline" value="" id="tagline"/>
+					<span class="hint">e.g. A place where magical things happen!</span>
 				</fieldset>
 				<fieldset>
 					<legend>Twitter Info</legend>
