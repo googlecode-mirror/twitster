@@ -1,6 +1,31 @@
 $(document).ready(function() {
   // validate signup form on keyup and submit
   var validator = $("#setupform").validate({
+    debug: false,
+    onsubmit: true,
+    success: function(label) {
+      label.addClass('valid');
+    },
+    /*
+    submitHandler: function(form) {
+      // do other stuff for a valid form
+      alert('SUBMIT!');
+      form.submit();
+    },
+    invalidHandler: function(form, validator) {
+      alert(message);
+      var errors = validator.numberOfInvalids();
+      if (errors) {
+        var message = errors == 1
+          ? 'You missed 1 field. It has been highlighted'
+	    : 'You missed ' + errors + ' fields. They have been highlighted';
+        //$("div.error span").html(message);
+        //$("div.error").show();
+      } else {
+	//$("div.error").hide();
+      }
+    },
+    */
     rules: {
       tag: "required",
       site: "required",
