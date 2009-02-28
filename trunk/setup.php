@@ -5,11 +5,11 @@
 function validate_request() {
   $errors = array();
   $link = @mysql_connect($_REQUEST['dbhost'], $_REQUEST['dbuser'],
-			 $_REQUEST['dbuser'], $_REQUEST['dbpass']);
+			 $_REQUEST['dbpass']);
   if (!$link) {
     $errors['db'][] = "Unable to connect to the database. Please check your credentials and try again.";
   }
-  if (!mysql_select_db(HASHMT_DBNAME)) {
+  if (!mysql_select_db($_REQUEST['dbname'])) {
     $errors['db'][] = "The database name you specified does not exist.";
   }
   require_once("class.twitter.php");
@@ -25,31 +25,50 @@ function validate_request() {
   if (count($errors) == 0) { return NULL; }
   return $errors;
 }
-
 if (isset($_REQUEST['submit'])) {
-  $conf = fopen("config.php",'w');
   $errors = validate_request();
-  if ($errors) {
-    fwrite($conf,"<?php\n");
-    fwrite($conf,"define('HASHTAG', '".$_REQUEST['tag']."');\n");
-    fwrite($conf,"define('SITE_TITLE','".$_REQUEST['site']."');\n");
-    fwrite($conf,"define('SITE_SUBTITLE','".$_REQUEST['tagline']."');\n");
-    fwrite($conf,"define('DBHOST','".$_REQUEST['dbhost']."');\n");
-    fwrite($conf,"define('DBNAME','".$_REQUEST['dbname']."');\n");
-    fwrite($conf,"define('DBUSER','".$_REQUEST['dbuser']."');\n");
-    fwrite($conf,"define('DBPASS','".$_REQUEST['dbpass']."');\n");
-    fwrite($conf,"define('TWITTER_USER','".$_REQUEST['twuser']."');\n");
-    fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n");
-    fwrite($conf,"define('CACHE_ENABLED', 1);\n");
-    fwrite($conf,"define('CACHE_TIME',60 * 5);\n");
-    fwrite($conf,"define('PAGE_LIMIT',20);\n");
-    fwrite($conf,"define('DEBUG',0);\n");
-    fwrite($conf,"define('QUERY_LIMIT',139);\n");
-    fwrite($conf,"define('LOG_FILE','twitster.log');\n");
-    fwrite($conf,"?>\n");
-    fclose($conf);
-    header("Location: index.php");
-    exit;
+  if (!isset($errors)) {
+    mysql_query("DROP TABLE IF EXISTS tweets");
+    $sql = <<<ENDSQL
+CREATE TABLE tweets (
+  id int(10) NOT NULL auto_increment,
+  tweet_id varchar(50) NOT NULL UNIQUE default '0',
+  message varchar(180) NOT NULL default '',
+  author_screen_name varchar(30) NOT NULL default '',
+  author_name varchar(30) NOT NULL default '',
+  author_url varchar(255) default '',
+  author_userpic varchar(255) default '',
+  publish_date datetime NOT NULL default '0000-00-00 00:00:00',
+  created_date datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY (id)
+) TYPE=MyISAM PACK_KEYS=1;
+ENDSQL;
+    if (!mysql_query($sql)) {
+      $errors = array();
+      $errors['create_table'][] = "Could not create the database table: " . mysql_error();
+    } else {
+      $conf = fopen("config.php",'w');
+      fwrite($conf,"<?php\n");
+      fwrite($conf,"define('HASHTAG', '".$_REQUEST['tag']."');\n");
+      fwrite($conf,"define('SITE_TITLE','".$_REQUEST['site']."');\n");
+      fwrite($conf,"define('SITE_SUBTITLE','".$_REQUEST['tagline']."');\n");
+      fwrite($conf,"define('DBHOST','".$_REQUEST['dbhost']."');\n");
+      fwrite($conf,"define('DBNAME','".$_REQUEST['dbname']."');\n");
+      fwrite($conf,"define('DBUSER','".$_REQUEST['dbuser']."');\n");
+      fwrite($conf,"define('DBPASS','".$_REQUEST['dbpass']."');\n");
+      fwrite($conf,"define('TWITTER_USER','".$_REQUEST['twuser']."');\n");
+      fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n");
+      fwrite($conf,"define('CACHE_ENABLED', 1);\n");
+      fwrite($conf,"define('CACHE_TIME',60 * 5);\n");
+      fwrite($conf,"define('PAGE_LIMIT',20);\n");
+      fwrite($conf,"define('DEBUG',0);\n");
+      fwrite($conf,"define('QUERY_LIMIT',139);\n");
+      fwrite($conf,"define('LOG_FILE','twitster.log');\n");
+      fwrite($conf,"?>\n");
+      fclose($conf);
+      header("Location: index.php");
+      exit;
+    }
   }
 }
 if (!is_writable("./") || !is_writable("./cache")) {
@@ -80,7 +99,7 @@ if (isset($errors)) {
 }
 ?>
 			<h2>Let's get you set up:</h2>
-			<form action="#" method="get" accept-charset="utf-8" id="setupform">
+			<form action="setup.php" method="post" accept-charset="utf-8" id="setupform">
 				<fieldset>
 					<legend>Site Preferences</legend>
 					<label for="tag">Tag To Follow:</label>
