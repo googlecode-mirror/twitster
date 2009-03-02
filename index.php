@@ -11,6 +11,7 @@ $twitster->init();
 
 $offset = isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 0;
 $tag    = $_REQUEST['tag'];
+if (!isset($tag) && HASHTAG) { $tag = HASHTAG; }
 $options = array();
 $options['tag']    = $tag;
 $options['offset'] = $offset;
@@ -49,6 +50,7 @@ ob_start(); // Start the output buffer for the cache
 <?php
   $i=0;
   foreach ($tweets as $tweet) {
+    $tweet->tagify();
     $cleantext = $tweet->message; //$tweet->clean();
     echo "<li id=\"tweet-".$tweet->id."\" class=\"tweet" . (($i % 2 == 0) ? " altrow" : "") . "\">\n";
     echo "<div class=\"userpic\"><a href=\"http://twitter.com/". $tweet->screen_name ."\"><img src=\"" . $tweet->userpic . "\" alt=\"\" /></a></div>\n";

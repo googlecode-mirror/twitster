@@ -35,7 +35,8 @@ CREATE TABLE tags (
   tweet_id varchar(50) NOT NULL default '0',
   tag varchar(20) NOT NULL default '',
   PRIMARY KEY (id),
-  INDEX tag (tag)
+  INDEX tag (tag),
+  CONSTRAINT tag_tweet UNIQUE (tweet_id,tag)
 ) TYPE=MyISAM PACK_KEYS=1;
 ENDSQL;
     $sql2 = <<<ENDSQL
