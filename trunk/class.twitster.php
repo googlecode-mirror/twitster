@@ -40,6 +40,13 @@ class Tweet {
     }
     return $tags;
   }
+  function tagify() {
+    $tags = $this->find_tags();
+    foreach ($tags as $t) {
+      $te = urlencode($t);
+      $this->message = ereg_replace($t,"<a href=\"index.php?tag=$te\">$t</a>",$this->message);
+    }
+  }
   function clean() {
     return (str_replace(HASHTAG, '', $this->message));
   }
@@ -67,7 +74,7 @@ class Tweet {
   }
   public static function count($tag = NULL) {
     if ($tag) {
-      $sql = sprintf("SELECT count(tweet_id) FROM tags WHERE tag = '#%s'",$tag);
+      $sql = sprintf("SELECT count(tweet_id) FROM tags WHERE tag = '%s'",$tag);
     } else {
       $sql = sprintf("SELECT count(tweet_id) FROM tweets");
     }
@@ -82,7 +89,7 @@ class Tweet {
     if (!isset($options['limit'])) { $options['limit'] = 20; }
     if (!isset($options['offset'])) { $options['offset'] = 0; }
     if ($options['tag']) {
-      $sql = sprintf("SELECT tweets.tweet_id,message,author_screen_name,author_name,author_url,author_userpic,publish_date FROM tweets,tags WHERE tweets.tweet_id = tags.tweet_id AND tags.tag = '#%s' ORDER BY publish_date DESC LIMIT %d,%d",$options['tag'],$options['offset'],$options['limit']);
+      $sql = sprintf("SELECT tweets.tweet_id,message,author_screen_name,author_name,author_url,author_userpic,publish_date FROM tweets,tags WHERE tweets.tweet_id = tags.tweet_id AND tags.tag = '%s' ORDER BY publish_date DESC LIMIT %d,%d",$options['tag'],$options['offset'],$options['limit']);
     } else {
       $sql = sprintf("SELECT tweet_id,message,author_screen_name,author_name,author_url,author_userpic,publish_date FROM tweets ORDER BY publish_date DESC LIMIT %d,%d",$options['offset'],$options['limit']);
     }
