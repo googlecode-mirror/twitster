@@ -6,7 +6,7 @@ function time_for_refresh() {
   $since = filemtime(LAST_UPDATE_FILE);
   if ($now - $since > CACHE_TIME) {
     debug("It is time for a refresh."); 
-     return 1;
+    return 1;
   }
   debug("It is NOT time for a refresh."); 
   return 0;
@@ -19,7 +19,7 @@ function do_update_if_needed($twitster) {
     } else {
       twitlog("It is time to refresh the cache, beginning now.");
       $tweets = Tweet::find();
-      $since = $tweets[0]->id;
+      $since = (is_array($tweets) && $tweets[0] ? $tweets[0]->id : false);
       $twitster->refresh($since);
     }
   }
