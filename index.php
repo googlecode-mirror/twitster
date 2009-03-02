@@ -10,9 +10,11 @@ $twitster = new twitster();
 $twitster->init();
 
 $offset = isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 0;
+$tag    = $_REQUEST['tag'];
 $options = array();
+$options['tag']    = $tag;
 $options['offset'] = $offset;
-$options['limit'] = PAGE_LIMIT;
+$options['limit']  = PAGE_LIMIT;
 
 if ($offset == 0) { do_update_if_needed($twitster); }
 
@@ -47,7 +49,7 @@ ob_start(); // Start the output buffer for the cache
 <?php
   $i=0;
   foreach ($tweets as $tweet) {
-    $cleantext = $tweet->clean();
+    $cleantext = $tweet->message; //$tweet->clean();
     echo "<li id=\"tweet-".$tweet->id."\" class=\"tweet" . (($i % 2 == 0) ? " altrow" : "") . "\">\n";
     echo "<div class=\"userpic\"><a href=\"http://twitter.com/". $tweet->screen_name ."\"><img src=\"" . $tweet->userpic . "\" alt=\"\" /></a></div>\n";
     echo "<div class=\"tweet-meta\"><a href=\"http://twitter.com/". $tweet->screen_name ."\">" . $tweet->name . "</a> ". relativeTime(strtotime($tweet->published)) ."</div>";
@@ -57,7 +59,7 @@ ob_start(); // Start the output buffer for the cache
   }
 ?>
 			</ul>
-<?php echo Paginator::paginate($offset,Tweet::count(),PAGE_LIMIT,"index.php?offset="); ?>
+<?php echo Paginator::paginate($offset,Tweet::count($tag),PAGE_LIMIT,"index.php?".($tag ? 'tag='.$tag.'&' : '')."offset="); ?>
     </div>
 		</div>
 		<div id="footer">

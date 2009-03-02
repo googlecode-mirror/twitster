@@ -29,7 +29,16 @@ if (isset($_REQUEST['submit'])) {
   $errors = validate_request();
   if (!isset($errors)) {
     mysql_query("DROP TABLE IF EXISTS tweets");
-    $sql = <<<ENDSQL
+    $sql1 = <<<ENDSQL
+CREATE TABLE tags (
+  id int(10) NOT NULL auto_increment,
+  tweet_id varchar(50) NOT NULL default '0',
+  tag varchar(20) NOT NULL default '',
+  PRIMARY KEY (id),
+  INDEX tag (tag)
+) TYPE=MyISAM PACK_KEYS=1;
+ENDSQL;
+    $sql2 = <<<ENDSQL
 CREATE TABLE tweets (
   id int(10) NOT NULL auto_increment,
   tweet_id varchar(50) NOT NULL UNIQUE default '0',
@@ -40,10 +49,11 @@ CREATE TABLE tweets (
   author_userpic varchar(255) default '',
   publish_date datetime NOT NULL default '0000-00-00 00:00:00',
   created_date datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  INDEX tweet_id (tweet_id)
 ) TYPE=MyISAM PACK_KEYS=1;
 ENDSQL;
-    if (!mysql_query($sql)) {
+    if (!mysql_query($sql1) || !mysql_query($sql2)) {
       $errors = array();
       $errors['create_table'][] = "Could not create the database table: " . mysql_error();
     } else {

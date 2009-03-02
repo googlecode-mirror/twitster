@@ -88,24 +88,36 @@ class twitter{
 	 * Returns the last 20 updates by default
 	 * @param boolean|integer $id Specifies the ID or screen name of the user for whom to return the friends_timeline. (set to false if you want to use authenticated user).
 	 * @param boolean|integer $since Narrows the returned results to just those statuses created after the specified date.
+	 * @param integer $count Specifies the number of statuses to retrieve. May not be greater than 200.
+	 * @param integer $page The page number to retrieve.
 	 * @return string
 	 */
-	function friendsTimeline( $id = false, $since = false, $count = false )
+	function friendsTimeline( $id = false, $since = false, $count = false, $page = 0 )
 	{
-        $qs='';
-        if( $since !== false )
-            $qs.='?since='.urlencode($since);
-
-        if( $count !== false )
-            $qs.='?count='.urlencode($count);
-            
-        if( $id === false )
+	  $qs='';
+	  if( $since !== false ) {
+	    if (is_numeric($since)) {
+	      $qs.= ($qs != '' ? '&' : '?') . 'since_id='.urlencode($since);
+	    } else {
+	      $qs.= ($qs != '' ? '&' : '?') . 'since='.urlencode($since);
+	    }
+	  }
+	  if( $count !== false )
+	    $qs.= ($qs != '' ? '&' : '?') . 'count='.urlencode($count);
+	  
+	  if( $page )
+	    $qs.= ($qs != '' ? '&' : '?') . 'page='.urlencode($page);
+	  
+	  if( $id === false )
             $request = 'http://twitter.com/statuses/friends_timeline.' . $this->type . $qs;
-        else
+	  else
             $request = 'http://twitter.com/statuses/friends_timeline/' . urlencode($id) . '.' . $this->type . $qs;
-        
-        $out = $this->process($request);
-		return $this->objectify( $this->process($request) );
+	  
+
+	  twitlog("REQUEST: $request",3,LOG_FILE);
+	  $xml = $this->process($request);
+	  //twitlog("XML: $xml",3,LOG_FILE);
+	  return $this->objectify( $xml );
 	}
     
 	/**

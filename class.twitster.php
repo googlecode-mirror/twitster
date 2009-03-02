@@ -11,18 +11,34 @@ class Tweet {
   }
   public static function fromSimpleXML($xml) {
     $t = new Tweet();
+/*
     foreach ($xml->link as $link) {
       if ($link['rel'] == "image") { $t->userpic = $link['href']; }
     }
     ereg("([^ ]*) \(([^\)]*)\)",$xml->author->name,$regs);
-    $t->author_url = $xml->author->uri;
-    $t->screen_name = $regs[1];
-    $t->name = $regs[2];
-    $t->message = $xml->title;
-    $t->published = $xml->published;
-    ereg(":([0-9]+)$",$xml->id,$regs2);
-    $t->id = $regs2[1];
+*/
+    $t->userpic = $xml->user->profile_image_url;
+    $t->author_url = $xml->user->url;
+    $t->screen_name = $xml->user->screen_name;
+    $t->name = $xml->user->name;
+    $t->message = $xml->text;
+    $t->published = $xml->created_at;
+    //ereg(":([0-9]+)$",$xml->id,$regs2);
+    $t->id = $xml->id;
     return $t;
+  }
+  function find_tags() {
+    $tags = array();
+    if (preg_match_all("/(\#[^\s\#]+)/",$this->message,$regs)) {
+      for ($i = 1; $i < count($regs); $i++) {
+	$m = $regs[$i];
+	for ($j = 0; $j < count($m); $j++) {
+	  $r = $m[$j];
+	  $tags[] = $r;
+	}
+      }
+    }
+    return $tags;
   }
   function clean() {
     return (str_replace(HASHTAG, '', $this->message));
@@ -42,8 +58,19 @@ class Tweet {
 		   );
     mysql_query($sql);
   }
-  public static function count() {
-    $sql = sprintf("SELECT count(tweet_id) FROM tweets");
+  function insert_tag($tag) {
+    $sql = sprintf("INSERT INTO tags (tweet_id,tag) VALUES ('%s','%s')",
+		   mysql_escape_string($this->id),
+		   mysql_escape_string($tag)
+		   );
+    mysql_query($sql);
+  }
+  public static function count($tag = NULL) {
+    if ($tag) {
+      $sql = sprintf("SELECT count(tweet_id) FROM tags WHERE tag = '#%s'",$tag);
+    } else {
+      $sql = sprintf("SELECT count(tweet_id) FROM tweets");
+    }
     $query = mysql_query($sql) or die(mysql_error());
     if ($query && (mysql_num_rows($query) > 0)) {
       $row = mysql_fetch_row($query);
@@ -54,7 +81,11 @@ class Tweet {
     if (!isset($options)) { $options = array(); }
     if (!isset($options['limit'])) { $options['limit'] = 20; }
     if (!isset($options['offset'])) { $options['offset'] = 0; }
-    $sql = sprintf("SELECT tweet_id,message,author_screen_name,author_name,author_url,author_userpic,publish_date FROM tweets ORDER BY publish_date DESC LIMIT %d,%d",$options['offset'],$options['limit']);
+    if ($options['tag']) {
+      $sql = sprintf("SELECT tweets.tweet_id,message,author_screen_name,author_name,author_url,author_userpic,publish_date FROM tweets,tags WHERE tweets.tweet_id = tags.tweet_id AND tags.tag = '#%s' ORDER BY publish_date DESC LIMIT %d,%d",$options['tag'],$options['offset'],$options['limit']);
+    } else {
+      $sql = sprintf("SELECT tweet_id,message,author_screen_name,author_name,author_url,author_userpic,publish_date FROM tweets ORDER BY publish_date DESC LIMIT %d,%d",$options['offset'],$options['limit']);
+    }
     $query = mysql_query($sql) or die(mysql_error());
     $tweets = array();
     if ($query && (mysql_num_rows($query) > 0)) {
@@ -95,7 +126,53 @@ class twitster {
     }
   }
 
-  function refresh( $since = NULL ) {
+  function refresh( $since = false ) {
+    return $this->refresh_via_rest_api($since);
+  }
+
+  function refresh_via_rest_api( $since = false ) {
+    twitlog("Refreshing via REST API (since = " . 
+	    ($since == false ? 'false' : $since).").",3,LOG_FILE);
+    $pid = fopen(UPDATE_PID_FILE,'w');
+    fwrite($pid,getmypid());
+    fclose($pid);
+    $this->twitter->type = 'xml';
+    $page = 0;
+    $limit = 200;
+    $tweets = array();
+
+    // ok - "continue while this is your first time through the loop,
+    //       but stop if we are initiailizing twitster, or if we need
+    //       to fetch back to a previous tweet and there are more to 
+    //       fetch."
+    while ($page == 0 || ($since != false && $added > 0)) {
+      $added = 0;
+      $page++;
+      $timeline = $this->twitter->friendsTimeline( false, $since, $limit, $page );
+      if ($timeline->error) {
+	twitlog('There was an error: ' . $timeline->error, 3, LOG_FILE);
+      }
+      twitlog("Fetching page #".$page,3,LOG_FILE);
+      foreach ($timeline as $t) { 
+	$tweet = Tweet::fromSimpleXML($t);
+	twitlog("Adding tweet #".$tweet->id,3,LOG_FILE);
+	$tweets[] = $tweet; 
+	$tweet->insert();
+	$tags = $tweet->find_tags();
+	foreach ($tags as $tag) {
+	  twitlog("  Tagging tweet: $tag",3,LOG_FILE);
+  	  $tweet->insert_tag($tag);
+	}
+	$added++;
+      }
+    }
+    debug("Added " . count($tweets) . " tweets this go-round.");
+    touch(LAST_UPDATE_FILE);
+    unlink(UPDATE_PID_FILE);
+    return $tweets;
+  }
+
+  function refresh_via_search_api( $since = false ) {
     $pid = fopen(UPDATE_PID_FILE,'w');
     fwrite($pid,getmypid());
     fclose($pid);
@@ -128,7 +205,7 @@ class twitster {
     $this->twitter->type = 'atom';
     $tweets = array();
     foreach ($queries as $q) {
-      twitlog("Sending query $q\n",3,LOG_FILE);
+      twitlog("Sending query $q",3,LOG_FILE);
       $tmp = $this->twitter->search($q);
       debug("query (".strlen($q)."): $q");
       foreach ($tmp as $t) { 
