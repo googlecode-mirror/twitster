@@ -68,9 +68,11 @@ $(document).ready(function() {
       }
     },
     messages: {
+/*
       tag: {
         required: 'Enter a hash tag (e.g. "#foo") to filter against.'
       },
+*/
       site: {
         required: "Please enter a site title."
       },
