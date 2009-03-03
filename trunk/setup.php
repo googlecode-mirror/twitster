@@ -3,6 +3,7 @@
  *
  */
 function validate_request() {
+  global $_REQUEST;
   $errors = array();
   $link = @mysql_connect($_REQUEST['dbhost'], $_REQUEST['dbuser'],
 			 $_REQUEST['dbpass']);
@@ -100,7 +101,9 @@ if (!is_writable("./") || !is_writable("./cache")) {
 $scripts = array();
 array_push($scripts,'js/jquery.js');
 array_push($scripts,'js/jquery.validate.js');
-array_push($scripts,'js/setup.js');
+if ($_REQUEST['validate'] != '0') {
+  array_push($scripts,'js/setup.js');
+}
 include("header.php");
 if (isset($errors)) {
   foreach ($errors as $errclass) {
