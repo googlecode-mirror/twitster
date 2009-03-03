@@ -71,6 +71,7 @@ ENDSQL;
       fwrite($conf,"define('DBPASS','".$_REQUEST['dbpass']."');\n");
       fwrite($conf,"define('TWITTER_USER','".$_REQUEST['twuser']."');\n");
       fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n");
+      fwrite($conf,"define('SYNDICATE_PROTECTED', 0);\n");
       fwrite($conf,"define('CACHE_ENABLED', 1);\n");
       fwrite($conf,"define('CACHE_TIME',60 * 5);\n");
       fwrite($conf,"define('PAGE_LIMIT',20);\n");
