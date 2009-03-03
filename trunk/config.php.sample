@@ -16,6 +16,7 @@ define('TWITTER_USER','sampletwitteruser');
 define('TWITTER_PASS','sampletwitterpass');
 
 // General Twister config
+define('SYNDICATE_PROTECTED', 0);
 define('CACHE_ENABLED', 1);
 define('CACHE_TIME',60 * 5);
 define('PAGE_LIMIT',20);
