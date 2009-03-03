@@ -9,7 +9,7 @@ function time_for_refresh() {
     return 1;
   }
   debug("It is NOT time for a refresh."); 
-  return 1;
+  return 0;
 }
 
 function do_update_if_needed($twitster) {
