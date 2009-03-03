@@ -11,19 +11,13 @@ class Tweet {
   }
   public static function fromSimpleXML($xml) {
     $t = new Tweet();
-/*
-    foreach ($xml->link as $link) {
-      if ($link['rel'] == "image") { $t->userpic = $link['href']; }
-    }
-    ereg("([^ ]*) \(([^\)]*)\)",$xml->author->name,$regs);
-*/
     $t->userpic = $xml->user->profile_image_url;
     $t->author_url = $xml->user->url;
     $t->screen_name = $xml->user->screen_name;
     $t->name = $xml->user->name;
     $t->message = $xml->text;
-    $t->published = $xml->created_at;
-    //ereg(":([0-9]+)$",$xml->id,$regs2);
+    $timestamp = strtotime($xml->created_at);
+    $t->published = date('Y-m-d H:i:s',$timestamp);
     $t->id = $xml->id;
     return $t;
   }
