@@ -3,7 +3,7 @@ $(document).ready(function() {
   var validator = $("#setupform").validate({
     debug: false,
     onsubmit: true,
-    onfocusout: true,
+    //onfocusout: true,
     success: function(label) {
       label.addClass('valid');
     },
