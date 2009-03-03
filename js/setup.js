@@ -27,7 +27,6 @@ $(document).ready(function() {
     },
     */
     rules: {
-      tag: "required",
       site: "required",
       dbpass: {
         remote: {
