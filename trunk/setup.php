@@ -29,6 +29,7 @@ if (isset($_REQUEST['submit'])) {
   $errors = validate_request();
   if (!isset($errors)) {
     mysql_query("DROP TABLE IF EXISTS tweets");
+    mysql_query("DROP TABLE IF EXISTS tags");
     $sql1 = <<<ENDSQL
 CREATE TABLE tags (
   id int(10) NOT NULL auto_increment,
