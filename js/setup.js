@@ -7,12 +7,11 @@ $(document).ready(function() {
     success: function(label) {
       label.addClass('valid');
     },
-    /*
     submitHandler: function(form) {
       // do other stuff for a valid form
-      alert('SUBMIT!');
-      form.submit();
+      $(form).submit();
     },
+    /*
     invalidHandler: function(form, validator) {
       alert(message);
       var errors = validator.numberOfInvalids();

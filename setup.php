@@ -52,7 +52,7 @@ CREATE TABLE tweets (
   publish_date datetime NOT NULL default '0000-00-00 00:00:00',
   created_date datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (id),
-  INDEX tweet_id (tweet_id)
+  INDEX tweet_id_idx (tweet_id)
 ) TYPE=MyISAM PACK_KEYS=1;
 ENDSQL;
     if (!mysql_query($sql1) || !mysql_query($sql2)) {
@@ -142,7 +142,7 @@ if (isset($errors)) {
 					<label for="dbname">Database Name:</label>
 					<input type="text" name="dbname" value="" id="dbname"/>
 				</fieldset>
-				<div class="form-button"><input type="image" src="i/button-wizard-setup.png" alt="Set up twitster" name="submit" value="submit" /></div>
+				<div class="form-button"><input type="submit" name="submit" value="submit" src="i/button-wizard-setup.png" alt="Set up twitster" /></div>
 			</form>
 <?php
 include("footer.php");
