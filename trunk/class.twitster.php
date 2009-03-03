@@ -16,6 +16,7 @@ class Tweet {
     $t->screen_name = $xml->user->screen_name;
     $t->name = $xml->user->name;
     $t->message = $xml->text;
+    $t->protected = $xml->user->protected;
     $timestamp = strtotime($xml->created_at);
     $t->published = date('Y-m-d H:i:s',$timestamp);
     $t->id = $xml->id;
@@ -156,15 +157,17 @@ class twitster {
       twitlog("Fetching page #".$page,3,LOG_FILE);
       foreach ($timeline as $t) { 
 	$tweet = Tweet::fromSimpleXML($t);
-	twitlog("Adding tweet #".$tweet->id,3,LOG_FILE);
-	$tweets[] = $tweet; 
-	$tweet->insert();
-	$tags = $tweet->find_tags();
-	foreach ($tags as $tag) {
-	  twitlog("  Tagging tweet: $tag",3,LOG_FILE);
-  	  $tweet->insert_tag($tag);
+	if (!$tweet->protected || SYNDICATE_PROTECTED) {
+	  twitlog("Adding tweet #".$tweet->id,3,LOG_FILE);
+	  $tweets[] = $tweet; 
+	  $tweet->insert();
+	  $tags = $tweet->find_tags();
+	  foreach ($tags as $tag) {
+	    twitlog("  Tagging tweet: $tag",3,LOG_FILE);
+	    $tweet->insert_tag($tag);
+	  }
+	  $added++;
 	}
-	$added++;
       }
     }
     debug("Added " . count($tweets) . " tweets this go-round.");
