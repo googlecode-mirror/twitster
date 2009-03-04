@@ -24,7 +24,7 @@ class Tweet {
   }
   function find_tags() {
     $tags = array();
-    if (preg_match_all("/(\#[^\s\#]+)/",$this->message,$regs)) {
+    if (preg_match_all("/(\#[A-Za-z0-9]+)/",$this->message,$regs)) {
       for ($i = 1; $i < count($regs); $i++) {
 	$m = $regs[$i];
 	for ($j = 0; $j < count($m); $j++) {
