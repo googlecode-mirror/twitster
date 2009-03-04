@@ -1,4 +1,4 @@
-<h1>Tweet::find_tags Tests</h1>
+<h1>Tweet::tagify Tests</h1>
 <ol>
 <?php
 require("../class.twitster.php");
