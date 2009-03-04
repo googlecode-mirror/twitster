@@ -39,7 +39,7 @@ class Tweet {
     $tags = $this->find_tags();
     foreach ($tags as $t) {
       $te = urlencode($t);
-      $this->message = ereg_replace($t,"<a href=\"index.php?tag=$te\">$t</a>",$this->message);
+      $this->message = ereg_replace($t,"<a href=\"index.php?tag=".urlencode($te)."\">$t</a>",$this->message);
     }
   }
   function clean() {
