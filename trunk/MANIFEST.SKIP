@@ -1,0 +1,21 @@
+# version control
+\bCVS
+(^|/)\.
+
+# CPAN chain files
+^MANIFEST
+^Makefile
+^META.yml$
+^blib/
+\#$
+~$
+
+# Twitster Files
+^tests/*
+^config.php$
+^TODO.txt$
+
+# packages
+\.zip$
+\.tar\.gz$
+
