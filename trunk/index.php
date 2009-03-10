@@ -4,8 +4,8 @@ if (!file_exists('config.php')) {
    exit;
 }
 
-require_once("class.twitster.php");
-require_once("class.paginator.php");
+require_once("include/class.twitster.php");
+require_once("incude/class.paginator.php");
 $twitster = new twitster();
 $twitster->init();
 
