@@ -5,7 +5,7 @@ if (!file_exists('config.php')) {
 }
 
 require_once("include/class.twitster.php");
-require_once("incude/class.paginator.php");
+require_once("include/class.paginator.php");
 $twitster = new twitster();
 $twitster->init();
 
