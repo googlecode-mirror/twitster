@@ -1,5 +1,5 @@
 <?php
-require_once("class.twitster.php");
+require_once("include/class.twitster.php");
 
 $twitster = new twitster();
 $twitster->init();
