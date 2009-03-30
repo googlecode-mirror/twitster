@@ -1,7 +1,7 @@
 		</div>
 		<div id="footer">
-			<p>Powered by <a href="http://plasticmind.com/twitster.com/" title="Roll your own Twitter community.">twitster</a></p>
+			<p>Powered by <a href="http://plasticmind.com/twitster/" title="Twitter groups for your website.">Twitster</a></p>
 		</div>
-	</div></div>
+	</div>
 </body>
 </html>
