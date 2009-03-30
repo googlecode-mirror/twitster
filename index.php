@@ -28,9 +28,9 @@ $tweets = Tweet::find($options);
    	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
    	<title><?php echo SITE_TITLE ?>: <?php echo SITE_SUBTITLE ?></title>
    	<meta name="description" content="<?php echo SITE_SUBTITLE ?>" />
-   	<link rel="stylesheet" href="css/twitster-mellow.css" type="text/css" media="screen, projection" />
-   	<link rel="icon" href="i/favicon.ico" type="image/x-icon" />
-   	<link rel="shortcut icon" href="i/favicon.ico" type="image/x-icon" />
+   	<link rel="stylesheet" href="themes/mellow/css/twitster-mellow.css" type="text/css" media="screen, projection" />
+   	<link rel="icon" href="themes/mellow/i/favicon.ico" type="image/x-icon" />
+   	<link rel="shortcut icon" href="themes/mellow/i/favicon.ico" type="image/x-icon" />
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
 </head>
 
@@ -42,7 +42,7 @@ $tweets = Tweet::find($options);
 				<h2><?php echo SITE_SUBTITLE ?></h2>
 			</div>
 			<div id="content">
-				<div class="feedicon"><a href="rss.php" title="Subscribe to <?php echo SITE_TITLE ?> via RSS"><img src="i/rss.png" alt="Feed Icon"></a></div>
+				<div class="feedicon"><a href="rss.php" title="Subscribe to <?php echo SITE_TITLE ?> via RSS"><img src="themes/mellow/i/rss.png" alt="Feed Icon"></a></div>
 				<ul id="updatelist">
 					<?php
 					  $i=0;
