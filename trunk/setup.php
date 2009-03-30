@@ -13,7 +13,7 @@ function validate_request() {
   if (!mysql_select_db($_REQUEST['dbname'])) {
     $errors['db'][] = "The database name you specified does not exist.";
   }
-  require_once("class.twitter.php");
+  require_once("include/class.twitter.php");
   $twitter = new twitter();
   $twitter->username = $_REQUEST['twuser'];
   $twitter->password = $_REQUEST['twpass'];
@@ -62,19 +62,19 @@ ENDSQL;
     } else {
       $conf = fopen("config.php",'w');
       fwrite($conf,"<?php\n\n");
-      fwrite($conf,"// Site information");
+      fwrite($conf,"// Site information\n");
       fwrite($conf,"define('HASHTAG', '".$_REQUEST['tag']."'); // The hashtag to filter by\n");
       fwrite($conf,"define('SITE_TITLE','".$_REQUEST['site']."'); // The site title\n");
       fwrite($conf,"define('SITE_SUBTITLE','".$_REQUEST['tagline']."'); // The site tagline/description\n\n");
-      fwrite($conf,"// Database connection information");
+      fwrite($conf,"// Database connection information\n");
       fwrite($conf,"define('DBHOST','".$_REQUEST['dbhost']."');\n");
       fwrite($conf,"define('DBNAME','".$_REQUEST['dbname']."');\n");
       fwrite($conf,"define('DBUSER','".$_REQUEST['dbuser']."');\n");
       fwrite($conf,"define('DBPASS','".$_REQUEST['dbpass']."');\n\n");
-      fwrite($conf,"// Twitter information");
+      fwrite($conf,"// Twitter information\n");
       fwrite($conf,"define('TWITTER_USER','".$_REQUEST['twuser']."');\n");
       fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n\n");
-      fwrite($conf,"// General Twitster config");
+      fwrite($conf,"// General Twitster config\n");
       fwrite($conf,"define('SYNDICATE_PROTECTED', 1); // Do not display protected feeds\n");
       fwrite($conf,"define('CACHE_ENABLED', 1); // Cache Twitster results\n");
       fwrite($conf,"define('CACHE_TIME',60 * 5); // Second # is cache time in minutes\n");
