@@ -15,13 +15,13 @@ define("DBPASS","dbpassword");
 define('TWITTER_USER','sampletwitteruser');
 define('TWITTER_PASS','sampletwitterpass');
 
-// General Twister config
-define('SYNDICATE_PROTECTED', 0);
-define('CACHE_ENABLED', 1);
-define('CACHE_TIME',60 * 5);
-define('PAGE_LIMIT',20);
-define('DEBUG',0);
-define('QUERY_LIMIT',139);
-define('LOG_FILE','twitster.log');
+// General Twitster config
+define('SYNDICATE_PROTECTED', 1); 			// Do not display protected feeds
+define('CACHE_ENABLED', 1);					// Cache Twitster results
+define('CACHE_TIME',60 * 5); 				// Second # is cache time in minutes
+define('PAGE_LIMIT',20); 					// Tweets per page
+define('DEBUG',0); 							// Debug mode
+define('QUERY_LIMIT',139);					// Twitter API query limit (200 max)
+define('LOG_FILE','twitster.log');			// Logfile for debugging
 
 ?>
