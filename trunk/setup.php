@@ -151,7 +151,7 @@ if (isset($errors)) {
 					<label for="dbpass">Database Password:</label>
 					<input type="password" name="dbpass" value="" id="dbpass"/>
 				</fieldset>
-				<div class="form-button"><input type="image" name="submit" value="submit" src="i/button-wizard-setup.png" alt="Set up twitster" /></div>
+				<div class="form-button"><input type="image" name="submit" value="submit" src="themes/mellow/i/button-wizard-setup.png" alt="Set up twitster" /></div>
 			</form>
 <?php
 include("footer.php");
