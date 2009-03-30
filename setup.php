@@ -18,7 +18,7 @@ function validate_request() {
   $twitter->username = $_REQUEST['twuser'];
   $twitter->password = $_REQUEST['twpass'];
   if (!$twitter->verifyCredentials()) {
-    $errors['twitter'][] = "The Twitter username and password you entered is incorrect. Do you need a reminder of your password?";
+    $errors['twitter'][] = 'The Twitter username and password you entered is incorrect. Do you need <a href="http://twitter.com/account/resend_password">a reminder of your password</a>?';
   }
   // make sure tag has a value
   // make sure title and subtitle exists
@@ -61,23 +61,27 @@ ENDSQL;
       $errors['create_table'][] = "Could not create the database table: " . mysql_error();
     } else {
       $conf = fopen("config.php",'w');
-      fwrite($conf,"<?php\n");
-      fwrite($conf,"define('HASHTAG', '".$_REQUEST['tag']."');\n");
-      fwrite($conf,"define('SITE_TITLE','".$_REQUEST['site']."');\n");
-      fwrite($conf,"define('SITE_SUBTITLE','".$_REQUEST['tagline']."');\n");
+      fwrite($conf,"<?php\n\n");
+      fwrite($conf,"// Site information");
+      fwrite($conf,"define('HASHTAG', '".$_REQUEST['tag']."'); // The hashtag to filter by\n");
+      fwrite($conf,"define('SITE_TITLE','".$_REQUEST['site']."'); // The site title\n");
+      fwrite($conf,"define('SITE_SUBTITLE','".$_REQUEST['tagline']."'); // The site tagline/description\n\n");
+      fwrite($conf,"// Database connection information");
       fwrite($conf,"define('DBHOST','".$_REQUEST['dbhost']."');\n");
       fwrite($conf,"define('DBNAME','".$_REQUEST['dbname']."');\n");
       fwrite($conf,"define('DBUSER','".$_REQUEST['dbuser']."');\n");
-      fwrite($conf,"define('DBPASS','".$_REQUEST['dbpass']."');\n");
+      fwrite($conf,"define('DBPASS','".$_REQUEST['dbpass']."');\n\n");
+      fwrite($conf,"// Twitter information");
       fwrite($conf,"define('TWITTER_USER','".$_REQUEST['twuser']."');\n");
-      fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n");
-      fwrite($conf,"define('SYNDICATE_PROTECTED', 0);\n");
-      fwrite($conf,"define('CACHE_ENABLED', 1);\n");
-      fwrite($conf,"define('CACHE_TIME',60 * 5);\n");
-      fwrite($conf,"define('PAGE_LIMIT',20);\n");
-      fwrite($conf,"define('DEBUG',0);\n");
-      fwrite($conf,"define('QUERY_LIMIT',139);\n");
-      fwrite($conf,"define('LOG_FILE','twitster.log');\n");
+      fwrite($conf,"define('TWITTER_PASS','".$_REQUEST['twpass']."');\n\n");
+      fwrite($conf,"// General Twitster config");
+      fwrite($conf,"define('SYNDICATE_PROTECTED', 1); // Do not display protected feeds\n");
+      fwrite($conf,"define('CACHE_ENABLED', 1); // Cache Twitster results\n");
+      fwrite($conf,"define('CACHE_TIME',60 * 5); // Second # is cache time in minutes\n");
+      fwrite($conf,"define('PAGE_LIMIT',20); // Tweets per page\n");
+      fwrite($conf,"define('DEBUG',0); // Debug mode\n");
+      fwrite($conf,"define('QUERY_LIMIT',139); // Twitter API query limit (200 max)\n");
+      fwrite($conf,"define('LOG_FILE','twitster.log'); // Logfile for debugging\n");
       fwrite($conf,"?>\n");
       fclose($conf);
       header("Location: index.php");
@@ -91,20 +95,20 @@ if (!is_writable("./") || !is_writable("./cache")) {
     <h2>I sense a disturbance in the Force.</h2>
     <p>It appears that your current directory is not writable. To run the twitster wizard please do the following:</p>
     <ul>
-<?php if (!is_writable("./")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__)."</code></li>\n"; } ?>
-<?php if (!is_writable("./cache")) { echo "<li>Run the command <code>chmod g+w ".dirname(__FILE__)."/cache</code></li>\n"; } ?>
+<?php if (!is_writable("./")) { echo "<li>Change permissions on the ".dirname(__FILE__)." directory to <code>777</code> (writable).</li>\n"; } ?>
+<?php if (!is_writable("./cache")) { echo "<li>Change permissions on the ".dirname(__FILE__)." directory to <code>777</code> (writable).</li>\n"; } ?>
     </ul>
-    <p>Then reload the page.</p>
+    <p>Once the configuration file is written, you can delete <code>setup.php</code> and set the main directory permissions back to something safer, like <code>755</code>.</p>
 <?php
   include("footer.php");
   exit;
 }
-$scripts = array();
-array_push($scripts,'js/jquery.js');
-array_push($scripts,'js/jquery.validate.js');
-if ($_REQUEST['validate'] != '0') {
-  array_push($scripts,'js/setup.js');
-}
+// $scripts = array();
+// array_push($scripts,'js/jquery.js');
+// array_push($scripts,'js/jquery.validate.js');
+// if ($_REQUEST['validate'] != '0') {
+//  array_push($scripts,'js/setup.js');
+// }
 include("header.php");
 if (isset($errors)) {
   foreach ($errors as $errclass) {
@@ -139,12 +143,12 @@ if (isset($errors)) {
 					<legend>Database Info</legend>
 					<label for="dbhost">Database Host:</label>
 					<input type="text" name="dbhost" value="localhost" id="dbhost"/>
+					<label for="dbname">Database Name:</label>
+					<input type="text" name="dbname" value="" id="dbname"/>
 					<label for="dbuser">Database Username:</label>
 					<input type="text" name="dbuser" value="" id="dbuser"/>
 					<label for="dbpass">Database Password:</label>
 					<input type="password" name="dbpass" value="" id="dbpass"/>
-					<label for="dbname">Database Name:</label>
-					<input type="text" name="dbname" value="" id="dbname"/>
 				</fieldset>
 				<div class="form-button"><input type="submit" name="submit" value="submit" src="i/button-wizard-setup.png" alt="Set up twitster" /></div>
 			</form>
