@@ -35,36 +35,44 @@ $tweets = Tweet::find($options);
 </head>
 
 <body>
-	<div id="container"><div id="container-in">
-		<div id="banner">
-			<h1><?php echo SITE_TITLE ?></h1>
-			<h2><?php echo SITE_SUBTITLE ?></h2>
-		</div>
-
-		<div id="content">
-			<div class="feedicon"><a href="rss.php" title="Subscribe to <?php echo SITE_NAME ?> via RSS"><img src="i/rss.png" alt="Feed Icon"></a></div>
-
-			<ul id="updatelist">
-<?php
-  $i=0;
-  foreach ($tweets as $tweet) {
-    $tweet->tagify();
-    $cleantext = $tweet->message; //$tweet->clean();
-    echo "<li id=\"tweet-".$tweet->id."\" class=\"tweet" . (($i % 2 == 0) ? " altrow" : "") . "\">\n";
-    echo "<div class=\"userpic\"><a href=\"http://twitter.com/". $tweet->screen_name ."\"><img src=\"" . $tweet->userpic . "\" alt=\"\" /></a></div>\n";
-    echo "<div class=\"tweet-meta\"><a href=\"http://twitter.com/". $tweet->screen_name ."\">" . $tweet->name . "</a> ". relativeTime(strtotime($tweet->published)) ."</div>";
-    echo "<div class=\"tweet-body\">" . linkify($cleantext) . ' <a href="' . $tweet->permalink() . '" class="permalink">#</a></div>';
-    echo "</li>\n";
-    $i++;
-  }
-?>
-			</ul>
-<?php echo Paginator::paginate($offset,Tweet::count($tag),PAGE_LIMIT,"index.php?".($tag ? 'tag='.$tag.'&' : '')."offset="); ?>
-    </div>
+	<div id="container">
+		<div id="container-in">
+			<div id="banner">
+				<h1><a href="index.php"><?php echo SITE_TITLE ?></a></h1>
+				<h2><?php echo SITE_SUBTITLE ?></h2>
+			</div>
+			<div id="content">
+				<div class="feedicon"><a href="rss.php" title="Subscribe to <?php echo SITE_TITLE ?> via RSS"><img src="i/rss.png" alt="Feed Icon"></a></div>
+				<ul id="updatelist">
+					<?php
+					  $i=0;
+					  foreach ($tweets as $tweet) {
+					    $tweet->tagify();
+					    $cleantext = $tweet->message; //$tweet->clean();
+					    echo "<li id=\"tweet-".$tweet->id."\" class=\"tweet" . (($i % 2 == 0) ? " altrow" : "") . "\">\n";
+					    echo "<div class=\"userpic\"><a href=\"http://twitter.com/". $tweet->screen_name ."\"><img src=\"" . $tweet->userpic . "\" alt=\"\" /></a></div>\n";
+					    echo "<div class=\"tweet-meta\"><a href=\"http://twitter.com/". $tweet->screen_name ."\">" . $tweet->name . "</a> ". relativeTime(strtotime($tweet->published)) ."</div>";
+					    echo "<div class=\"tweet-body\">" . linkify($cleantext) . ' <a href="' . $tweet->permalink() . '" class="permalink">&infin;</a></div>';
+					    echo "</li>\n";
+					    $i++;
+					  }
+					?>
+				</ul>
+				<?php 
+					if ($tweets) {
+						echo Paginator::paginate($offset,Tweet::count($tag),PAGE_LIMIT,"index.php?".($tag ? 'tag='.urlencode($tag).'&' : '')."offset="); 
+					} else {
+						echo "<div class=\"tweetless\">\n";
+						echo "No tweets.\n";
+						echo "</div>\n";
+					}
+				?>
+	    	</div>
 		</div>
 		<div id="footer">
-			<p>Powered by <a href="http://plasticmind.com/twitster/">twitster</a></p>
+			<p>Powered by <a href="http://plasticmind.com/twitster/?referral=1">Twitster</a></p>
 		</div>
-	</div></div>
+	</div>
+
 </body>
 </html>
