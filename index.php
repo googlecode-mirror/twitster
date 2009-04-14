@@ -10,7 +10,7 @@ $twitster = new twitster();
 $twitster->init();
 
 $offset = isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 0;
-$tag    = $_REQUEST['tag'];
+$tag    = isset($_REQUEST['tag']);
 if (!isset($tag) && HASHTAG) { $tag = HASHTAG; }
 $options = array();
 $options['tag']    = $tag;
