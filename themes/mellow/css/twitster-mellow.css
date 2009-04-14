@@ -120,6 +120,8 @@ float: left;
 border: solid 1px #dfdfca;
 padding: 5px;
 background: #fff;
+height: 48px;
+width: 48px;
 }
 .tweet {
 overflow: hidden;
@@ -141,6 +143,26 @@ font-size: 12px;
 }
 .tweet-body {
 margin-left: 70px;
+}
+
+/* ----------------------------------------------------------- TAG MENU */
+/* ---------------------------- tag menu to be included in next release */
+
+#tagmenu li {
+display: inline;
+}
+#tagmenu li a {
+border: solid 1px #ecedde;
+padding: 4px;
+}
+#tagmenu li a:hover {
+background: #eee;
+}
+#tagmenu a.active,
+#tagmenu a:hover.active {
+background: #5b8498;
+color: #fff;
+text-decoration: none;
 }
 
 /* ----------------------------------------------------------- PAGINATION */
