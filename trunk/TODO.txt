@@ -1,9 +1,10 @@
 TODO
 ====
-* Create "whitelist" of users to bypass the hashtag filter and display all tweets
-* Consider the option of using a filesystem based cache for those just starting up
-* Deleted tweets should be removed from the db
-* Javascript validation for setup wizard needs to be fixed
+* Show red alert reminder if main directory is still writable
 * @replies should link to user's Twitter pages
 * Create a Twitster module that can be included within another page
+* Javascript validation for setup wizard needs to be fixed
 * Filter by multiple hash tag
+* Deleted tweets should be removed from the db
+? Create "whitelist" of users to bypass the hashtag filter and display all tweets
+? Consider the option of using a filesystem based cache for those just starting up
