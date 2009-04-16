@@ -63,7 +63,8 @@ function relativeTime($time) {
 }
 
 function linkify($text) {
-	$text = ereg_replace("[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]","<a href=\"\\0\">\\0</a>", $text);
+	$text = ereg_replace("[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]","<a href=\"\\0\">\\0</a>", $text); // Linkify URLs
+	$text = preg_replace('%(?<!\S)@([A-Za-z0-9_]+)%', '<a href="http://twitter.com/$1">@$1</a>', $text); // Linkify @replies
 	return $text;
 }
 ?>
