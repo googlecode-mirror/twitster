@@ -1,13 +1,18 @@
 <?php
-require_once("include/class.twitster.php");
+if (!file_exists('config.php')) {
+   header("Location: setup.php");
+   exit;
+}
 
+require_once("include/class.twitster.php");
 $twitster = new twitster();
 $twitster->init();
 
-$offset = 0;
+if (!isset($_REQUEST['tag']) && HASHTAG) { $tag = HASHTAG; }
 $options = array();
-$options['offset'] = $offset;
-$options['limit'] = PAGE_LIMIT;
+$options['tag']    = $tag;
+$options['offset'] = 0;
+$options['limit'] = 15;
 
 function this_url() {
   $domain = $_SERVER['HTTP_HOST'];
@@ -16,9 +21,9 @@ function this_url() {
   return ereg_replace('rss.php','',$url);
 }
 
-if ($offset == 0) { do_update_if_needed($twitster); }
-
+do_update_if_needed($twitster);
 $tweets = Tweet::find($options);
+
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <rss version="2.0">
@@ -31,7 +36,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		<?php
 		$i=0;
 		foreach ($tweets as $tweet) {
-		  $cleantext = $tweet->clean();
+	    	$tweet->tagify();
+		    $cleantext = $tweet->message; //$tweet->clean();
 		  echo "<item>\n";
 		  echo "<title>".utf8_encode($tweet->name)."</title>\n";
 		  echo "<description><![CDATA[". linkify($cleantext) . ' <a href="' . $tweet->permalink() . '" class="permalink">#</a>]]></description>';
