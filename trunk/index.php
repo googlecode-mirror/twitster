@@ -75,3 +75,4 @@ $tweets = Tweet::find($options);
 
 </body>
 </html>
+<?php $twitster->close(); ?>
