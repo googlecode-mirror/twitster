@@ -109,14 +109,18 @@ class Tweet {
 }
 
 class twitster {
+  var $link;
   function __construct() {
     $this->twitter = new twitter();
     $this->twitter->username = TWITTER_USER;
     $this->twitter->password = TWITTER_PASS;
   }
+  function close() {
+    mysql_close($this->link);
+  }
   function init() {
-    $link = @mysql_connect(DBHOST, DBUSER, DBPASS);
-    if (!$link) {
+    $this->link = @mysql_connect(DBHOST, DBUSER, DBPASS);
+    if (!$this->link) {
       // couldn't connect
       // TODO - display an error
       die("Could not connect to database.");
