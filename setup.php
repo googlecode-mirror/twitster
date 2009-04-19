@@ -80,6 +80,7 @@ ENDSQL;
       fwrite($conf,"define('CACHE_TIME',60 * 5); // Second # is cache time in minutes\n");
       fwrite($conf,"define('PAGE_LIMIT',20); // Tweets per page\n");
       fwrite($conf,"define('DEBUG',0); // Debug mode\n");
+      fwrite($conf,"define('TWEET_LIMIT',0); // Max number of tweets in system\n");
       fwrite($conf,"define('QUERY_LIMIT',139); // Twitter API query limit (200 max)\n");
       fwrite($conf,"define('LOG_FILE','twitster.log'); // Logfile for debugging\n");
       fwrite($conf,"?>\n");

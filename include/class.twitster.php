@@ -133,7 +133,23 @@ class twitster {
   }
 
   function refresh( $since = false ) {
-    return $this->refresh_via_rest_api($since);
+    $tweets = $this->refresh_via_rest_api($since);
+    if (TWEET_LIMIT) {
+      $this->delete_old_tweets(TWEET_LIMIT);
+    }    
+    return $tweets;
+  }
+
+  function delete_old_tweets( $limit ) {
+    $sql = sprintf("SELECT tweet_id FROM tweets ORDER BY tweet_id LIMIT %d,1",$limit);
+    $query = mysql_query($sql) or die(mysql_error());
+    if ($query && (mysql_num_rows($query) > 0)) {
+      $row = mysql_fetch_row($query);
+      $id = $row[0];
+      debug("Deleting tweets older than $id, limiting to $limit.");
+      $sql = sprintf("DELETE FROM tweets WHERE tweet_id < %d",$id);
+      mysql_query($sql) or die(mysql_error());
+    }
   }
 
   function refresh_via_rest_api( $since = false ) {
