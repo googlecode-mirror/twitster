@@ -10,6 +10,7 @@ $twitster = new twitster();
 $twitster->init();
 
 $offset = isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 0;
+$tag    = $_REQUEST['tag'];
 if (!isset($_REQUEST['tag']) && HASHTAG) { $tag = HASHTAG; }
 $feed_link='rss.php?tag='.urlencode($tag);
 $options = array();
